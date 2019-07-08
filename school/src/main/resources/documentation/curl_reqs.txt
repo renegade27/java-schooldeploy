@@ -1,0 +1,13 @@
+username - naught
+password - password
+access_token - 4fd1fa87-4632-4c79-a79e-df8841805ca5
+
+1 - GET /courses/courses
+curl -X GET -H "Accept: application/json" -H "Authorization: Bearer 4fd1fa87-4632-4c79-a79e-df8841805ca5" https://naught-school.herokuapp.com/courses/courses
+
+2 - GET /courses/studcount
+curl -X GET -H "Accept: application/json" -H "Authorization: Bearer 4fd1fa87-4632-4c79-a79e-df8841805ca5" https://naught-school.herokuapp.com/courses/studcount
+
+3 - DELETE /courses/courses/{id}
+curl -X DELETE -H "Authorization: Bearer 4fd1fa87-4632-4c79-a79e-df8841805ca5" http://naught-school.herokuapp.com/courses/courses/2
+
