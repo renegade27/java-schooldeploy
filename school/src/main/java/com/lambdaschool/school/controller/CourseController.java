@@ -1,5 +1,6 @@
 package com.lambdaschool.school.controller;
 
+import com.lambdaschool.school.exception.ResourceNotFoundException;
 import com.lambdaschool.school.model.Course;
 import com.lambdaschool.school.service.CourseService;
 import com.lambdaschool.school.view.CountStudentsInCourses;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 
 @RestController
@@ -21,7 +23,11 @@ public class CourseController
     public ResponseEntity<?> listAllCourses()
     {
         ArrayList<Course> myCourses = courseService.findAll();
-        return new ResponseEntity<>(myCourses, HttpStatus.OK);
+        if(myCourses.size() == 0) {
+            throw new EntityNotFoundException("No data to pull");
+        } else {
+            return new ResponseEntity<>(myCourses, HttpStatus.OK);
+        }
     }
 
     @GetMapping(value = "/studcount", produces = {"application/json"})
@@ -33,7 +39,11 @@ public class CourseController
     @DeleteMapping("/courses/{courseid}")
     public ResponseEntity<?> deleteCourseById(@PathVariable long courseid)
     {
-        courseService.delete(courseid);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(courseService.findCourseById(courseid) == null) {
+            throw new EntityNotFoundException("Course ID invalid");
+        } else {
+            courseService.delete(courseid);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 }
